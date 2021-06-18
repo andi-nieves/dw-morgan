@@ -13,8 +13,9 @@ app.get('/top/confirmed', async function (req, res) {
     const max_results = req.query.max_results;
     var result = {};
     try {
+        console.log('>>', `SELECT * FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`)
         result = await db.query({
-            text: `SELECT * FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''} ${max_results ? `LIMIT ${max_results}` : ''}`,
+            text: `SELECT * FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`,
             values: observation_date && [db.parseDate(observation_date)]
         });
     } catch (error) {
