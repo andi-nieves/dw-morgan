@@ -8,6 +8,7 @@ Platform used: NodeJS & Postgres
 2. npm run dev
 
 ## ENV VARS
+see .env file
 ```
 PGHOST='localhost'
 PGUSER='postgres'
