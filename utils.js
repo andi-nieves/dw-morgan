@@ -15,5 +15,5 @@ module.exports.queryHandler = function (req, res, next) {
         }
     }
     if (error.length > 0) return res.status(400).json(error);
-    next()
+    next();
 }

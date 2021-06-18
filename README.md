@@ -1,8 +1,8 @@
-### ANDY F. NIEVES
+# ANDY F. NIEVES
 ## CODE TEST (DW MORGAN)
 Platform used: NodeJS & Postgres
 
-## Steps on how to run the project (Assuming NodeJS already installed)
+### Steps on how to run the project (Assuming NodeJS & Postgres are already installed)
 
 1. npm i / npm install / yarn
 2. npm run dev
