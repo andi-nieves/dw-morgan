@@ -10,8 +10,10 @@ module.exports.queryHandler = function (req, res, next) {
         }
     }
     if (max_results) {
-        if (!Number.isInteger(+max_results)) {
-            error.push({ message: 'Invalid max result value!' });
+        if (max_results.toLowerCase() !== 'all') {
+            if (!Number.isInteger(+max_results)) {
+                error.push({ message: 'Invalid max result value!' });
+            }
         }
     }
     if (error.length > 0) return res.status(400).json(error);

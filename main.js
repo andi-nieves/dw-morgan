@@ -26,7 +26,7 @@ app.get('/top/confirmed', async function (req, res) {
     var total = null;
     try {
         countries = await db.query({
-            text: `SELECT "CountryRegion" as country, "Confirmed" as confirmed,	"Deaths" as death, "Recovered" as recovered FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`,
+            text: `SELECT "CountryRegion" as country, "Confirmed" as confirmed,	"Deaths" as deaths, "Recovered" as recovered FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`,
             values: observation_date && [db.parseDate(observation_date)]
         });
         total = await db.query(`SELECT COUNT(*) FROM ${db.table};`);
