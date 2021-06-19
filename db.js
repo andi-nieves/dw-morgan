@@ -4,7 +4,6 @@ const csv2json = require("csvtojson");
 const pgformat = require('pg-format');
 require('dotenv').config();
 
-
 const csvFilePath = __dirname + "/data/covid_19_data.csv";
 const table = 'public.covid_observations';
 const createTableSQL = `CREATE TABLE IF NOT EXISTS ${table}
@@ -36,7 +35,7 @@ class dbClass {
     }
     async query(string) {
         const result = await this.client.query(string);
-        return result;
+        return result.rows;
     }
     async rawData() {
         return csv2json()
@@ -52,8 +51,8 @@ class dbClass {
     }
     async init() {
         this.query(createTableSQL);
-        const x = await this.query(`SELECT COUNT(*) FROM ${table}`);
-        if (x.rows[0].count < 10) {
+        const data = await this.query(`SELECT COUNT(*) FROM ${table}`);
+        if (data[0].count < 10) {
             const rawData = await this.rawData();
             const values = rawData.map(data => {
                 const dates = [1, 4];
