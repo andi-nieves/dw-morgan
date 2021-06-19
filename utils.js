@@ -10,7 +10,7 @@ module.exports.queryHandler = function (req, res, next) {
         }
     }
     if (max_results) {
-        if (max_results.toLowerCase() !== 'all') {
+        if (max_results.toLowerCase() !== 'max') {
             if (!Number.isInteger(+max_results)) {
                 error.push({ message: 'Invalid max result value!' });
             }
