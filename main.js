@@ -1,11 +1,13 @@
 var express = require('express');
 var app = express();
+var cors = require('cors')
 
 var { queryHandler } = require('./utils');
 var { dbClass } = require('./db');
 const db = new dbClass();
 
 ///top/confirmed?observation_date=yyyy-mm-dd&max_results=2
+app.use(cors())
 app.use(queryHandler);
 app.get('/top/confirmed', async function (req, res) {
     await db.init();
@@ -13,7 +15,6 @@ app.get('/top/confirmed', async function (req, res) {
     const max_results = req.query.max_results;
     var result = {};
     try {
-        console.log('>>', `SELECT * FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`)
         result = await db.query({
             text: `SELECT * FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results ? `LIMIT ${max_results}` : ''}`,
             values: observation_date && [db.parseDate(observation_date)]
