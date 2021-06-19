@@ -22,13 +22,18 @@ app.get('/top/confirmed', async function (req, res) {
     await db.init();
     const observation_date = req.query.observation_date;
     const max_results = req.query.max_results;
+    var page = req.query.page || 1;
+    page = +page <= 0 ? 1 : +page; 
     var countries = {};
     var total = null;
     try {
+        const sql = `SELECT "CountryRegion" as country, "Confirmed" as confirmed,	"Deaths" as deaths, "Recovered" as recovered FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results && max_results.toLowerCase() !== 'max' ? `LIMIT ${max_results} ${page ? `OFFSET ${max_results * page - max_results}` : ''}` : ''}`;
+        console.log(sql)
         countries = await db.query({
-            text: `SELECT "CountryRegion" as country, "Confirmed" as confirmed,	"Deaths" as deaths, "Recovered" as recovered FROM ${db.table} ${observation_date ? `WHERE "ObservationDate" = $1` : ''}  ORDER BY "Confirmed" DESC ${max_results && max_results.toLowerCase() !== 'max' ? `LIMIT ${max_results}` : ''}`,
+            text: sql,
             values: observation_date && [db.parseDate(observation_date)]
         });
+        console.log(countries.length)
         total = await db.query(`SELECT COUNT(*) FROM ${db.table};`);
         total = total[0].count
     } catch (error) {
