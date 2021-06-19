@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon ./main.js localhost 8080"
+    "dev": "nodemon ./main.js localhost"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
